@@ -1,5 +1,6 @@
 var shell = require('gl-now')()
 var createShader = require('gl-shader')
+
 var ws = new WebSocket('ws://localhost:8080/')
 var shader1, shader2, buffer
 var vertices = [];
@@ -9,15 +10,10 @@ var t0 = +new Date()
 var t;
 
 String.prototype.hashCode = function() {
-    var hash = 0,
-        i, chr, len;
+    var hash = 0;
     if (this.length === 0) return hash;
-    for (i = 0, len = this.length; i < len; i++) {
-        chr = this.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
+    return parseFloat(
+        "0." + parseInt(this.valueOf(), 36).toExponential().slice(2, 4), 10)
 };
 
 shell.on('gl-init', function() {
@@ -36,24 +32,31 @@ shell.on('gl-init', function() {
         }',
         'precision highp float;\
         void main() {\
-          gl_FragColor = vec4(1, 0, 0, 1.0);\
+          gl_FragColor = vec4(0.41, 0.41, 0.41, 1.0);\
         }'
     )
 
     shader2 = createShader(gl,
         'attribute vec3 position;\
         uniform float t;\
+        const float PI = 3.141;\
+        varying float color;\
         void main() {\
+            color = position.x;\
+            float theta = (position.x / 4.0 * PI); \
             float start = position.z;\
-            float translation = (t - start)/2000.0;\
-            float deflection = (t-start)/8000.0;\
-            vec2 position_t = vec2(-1.0+translation-4.0,deflection-1.0);\
+            float y0 = -4.0 * tan(theta);\
+            float dx = (t - start)/2000.0;\
+            float dy = tan(theta) * dx;\
+            float x0 = -5.0;\
+            vec2 position_t = vec2(x0+dx, y0+dy);\
             gl_Position = vec4(position_t, 0, 1.0);\
             gl_PointSize = 5.0;\
         }',
         'precision highp float;\
+        varying float color;\
         void main() {\
-          gl_FragColor = vec4(0, 1, 1, 1.0);\
+          gl_FragColor = vec4(color,0.5-color, 1.0-color,1);\
         }'
     )
 
@@ -73,7 +76,7 @@ shell.on('gl-init', function() {
         'precision highp float;\
         varying float color;\
         void main() {\
-          gl_FragColor = vec4(color,0,1,1);\
+          gl_FragColor = vec4(color,0.5-color, 1.0-color,1);\
         }'
     )
 
@@ -91,10 +94,10 @@ shell.on('gl-init', function() {
 ws.onmessage = function(event) {
     console.log(JSON.parse(event.data).c);
     d = JSON.parse(event.data);
-    console.log(d.c.hashCode() / 4000)
+    console.log(d.c.hashCode())
 
     t = +new Date() - t0
-    vertices = vertices.concat([d.c.hashCode() / 4000, 0, t])
+    vertices = vertices.concat([d.c.hashCode(), 0, t])
 
     // make a new buffer and pop the new vertices in
     var gl = shell.gl
