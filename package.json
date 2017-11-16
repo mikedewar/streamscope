@@ -1,0 +1,11 @@
+{
+  "name": "streamscope",
+  "dependencies": {
+    "glslify": "^2.0.0"
+  },
+  "browserify": {
+    "transform": [
+      "glslify"
+    ]
+  }
+}
