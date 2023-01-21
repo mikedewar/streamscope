@@ -79,14 +79,14 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            dot.position.x += 0.05
+            dot.position.x += 1 / (dot.position.x + 6)
 
             if (dot.position.x > 20) {
                 dot.position.x = 0
             }
 
             dots.forEach(function (d) {
-                d.position.x += 0.05
+                d.position.x += 1 / (d.position.x + 6)
             })
 
             dots = dots.filter(d => d.position.x < 21)
