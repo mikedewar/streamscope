@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/three.js"></script>
+    <script>
+
+
+        const scene = new THREE.Scene();
+
+        scene.background = new THREE.Color('#2e2629')
+
+        const camera = new THREE.OrthographicCamera(
+            -10.1, 10.1, -10, 10, 0, 1 // left right top bottom near far
+        );
+
+        camera.position.set(0, 0, 1);
+
+        const renderer = new THREE.WebGLRenderer();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+        // add the <canvas> element to the dom
+        document.body.appendChild(renderer.domElement);
+
+        // my attempt to draw some points
+        const dotGeometry = new THREE.BufferGeometry();
+        dotGeometry.setAttribute(
+            'position',
+            new THREE.BufferAttribute(
+                new Float32Array([-10, 0, 0]),
+                3
+            )
+        );
+        const dotMaterial = new THREE.PointsMaterial(
+            { size: 10, color: "#F06060" }
+        );
+
+        const dotsMaterial = new THREE.PointsMaterial(
+            { size: 10, color: "#8CBEB2" }
+        );
+
+
+        var dots = [];
+
+        const dot = new THREE.Points(dotGeometry, dotMaterial);
+        scene.add(dot);
+
+        const lineMaterial = new THREE.LineBasicMaterial({ color: "#243f39" });
+
+        const points = [];
+
+        const borders = [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10];
+
+        borders.map(function (i) {
+            points.push(new THREE.Vector3(i, -10, 0));
+            points.push(new THREE.Vector3(i, 10, 0));
+        })
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        const line = new THREE.LineSegments(geometry, lineMaterial);
+
+        scene.add(line);
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            dot.position.x += 0.05
+
+            if (dot.position.x > 20) {
+                dot.position.x = 0
+            }
+
+            dots.forEach(function (d) {
+                d.position.x += 0.05
+            })
+
+            dots = dots.filter(d => d.position.x < 21)
+
+            THREE.dis
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // wikipedia edits
+
+        var stringToColour = function (str) {
+            // https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            var colour = '#';
+            for (var i = 0; i < 3; i++) {
+                var value = (hash >> (i * 8)) & 0xFF;
+                colour += ('00' + value.toString(16)).substr(-2);
+            }
+            return colour;
+        }
+
+
+        url = "ws://wikimon.hatnote.com:9000"
+        webSocket = new WebSocket(url)
+        webSocket.onmessage = (event) => {
+            data = JSON.parse(event.data);
+            console.log(data)
+            dots.push(new THREE.Points(dotGeometry, new THREE.PointsMaterial(
+                { size: 10, color: stringToColour(data.action) }
+            )));
+            scene.add(dots.at(-1));
+        }
+
+
+    </script>
+</body>
+
+</html>
