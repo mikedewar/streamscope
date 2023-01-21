@@ -25,3 +25,5 @@ There are a few huge things to do before this is anywhere near what's going on i
 3. I need to learn a lot more about THREE.js and quite specifically how to free up memory. Right now, all my little particles, with their Materials and presumably a bunch of stuff I don't understand are all just hiding off to one side of the screen, so my page's memory usage is steadily increasing with every new wikipedia edit. Which is probably not great practice!
 
 Anyway, gonna leave it here and commit this update.
+
+![streamscope screenshot](screenshots/streamscope_screenshot_210123.png?raw=true)
