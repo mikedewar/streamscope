@@ -7,12 +7,15 @@
     <style>
         body {
             margin: 0;
+            font-family: "Gill Sans", sans-serif;
+            color: #F06060;
+
         }
 
         #s1 {
             position: absolute;
             top: 10px;
-            left: 160px;
+            left: 130px;
             text-align: center;
             z-index: 100;
             display: block;
@@ -21,7 +24,16 @@
         #s2 {
             position: absolute;
             top: 10px;
-            left: 300px;
+            left: 240px;
+            text-align: center;
+            z-index: 100;
+            display: block;
+        }
+
+        #s3 {
+            position: absolute;
+            top: 10px;
+            left: 330px;
             text-align: center;
             z-index: 100;
             display: block;
@@ -32,8 +44,9 @@
 <body>
 
     <div id="s0"></div>
-    <div id="s1">Bearing</div>
-    <div id="s2">Colour</div>
+    <div id="s1">bearing</div>
+    <div id="s2">colour</div>
+    <div id="s3">stabilise Y</div>
 
 
     <script src="js/three.js"></script>
@@ -131,12 +144,12 @@
                     case 2:
                         // change the bearing based on the change size
                         d.dy = function (y) {
-                            dy = d.data.change_size / 5000
+                            dy = d.data.change_size / 4000
                             //console.log(dy)
                             if (dy < 0) {
-                                return Math.max(dy, -0.02)
+                                return Math.max(dy, -0.05)
                             }
-                            return Math.min(dy, 0.02)
+                            return Math.min(dy, 0.05)
                         };
                         break;
                     case 3:
@@ -145,6 +158,11 @@
                             { size: 10, color: stringToColour(d.data.action) }
                         );
                         break;
+
+                    case 4:
+                        // stabilise the bearing
+                        d.dy = y => 0;
+                        break
 
                 }
 
