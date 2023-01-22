@@ -8,10 +8,34 @@
         body {
             margin: 0;
         }
+
+        #s1 {
+            position: absolute;
+            top: 10px;
+            left: 160px;
+            text-align: center;
+            z-index: 100;
+            display: block;
+        }
+
+        #s2 {
+            position: absolute;
+            top: 10px;
+            left: 300px;
+            text-align: center;
+            z-index: 100;
+            display: block;
+        }
     </style>
 </head>
 
 <body>
+
+    <div id="s0"></div>
+    <div id="s1">Bearing</div>
+    <div id="s2">Colour</div>
+
+
     <script src="js/three.js"></script>
     <script>
 
@@ -36,19 +60,15 @@
         // add the <canvas> element to the dom
         document.body.appendChild(renderer.domElement);
 
-        // my attempt to draw some points
-        const dotGeometry = new THREE.BufferGeometry();
-        dotGeometry.setAttribute(
+
+        const dotsGeometry = new THREE.BufferGeometry();
+        dotsGeometry.setAttribute(
             'position',
             new THREE.BufferAttribute(
                 new Float32Array([-10, 0, 0]),
                 3
             )
         );
-        const dotMaterial = new THREE.PointsMaterial(
-            { size: 10, color: "#F06060" }
-        );
-
         const dotsMaterial = new THREE.PointsMaterial(
             { size: 10, color: "#8CBEB2" }
         );
@@ -56,8 +76,6 @@
 
         var dots = [];
 
-        const dot = new THREE.Points(dotGeometry, dotMaterial);
-        scene.add(dot);
 
         const lineMaterial = new THREE.LineBasicMaterial({ color: "#243f39" });
 
@@ -79,27 +97,55 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            dot.position.x += 1 / (dot.position.x + 6)
-
-            if (dot.position.x > 20) {
-                dot.position.x = 0
-            }
-
             // update position
             dots.forEach(function (d) {
-                d.geometry.position.x += 1 / (d.geometry.position.x + 6)
+                d.geometry.position.x += d.dx(d.geometry.position.x)
+                d.geometry.position.y += d.dy(d.geometry.position.y)
             })
 
             // remove dot from array if it's past the right edge of the screen
             dots = dots.filter(d => d.geometry.position.x < 21)
 
+
+            function getSection(x) {
+                return Math.ceil((x / 20) * 10)
+            }
+
             // apply transforms 
             dots.forEach(function (d) {
 
-                if (d.geometry.position.x > 4 & d.geometry.position.x < 6) {
-                    d.geometry.material = new THREE.PointsMaterial(
-                        { size: 10, color: stringToColour(d.data.action) }
-                    );
+                section = getSection(d.geometry.position.x)
+
+
+                // check if we just crossed a boundary
+
+                if (d.section == section) {
+                    // don't do anything if we're still in the same section
+                    return
+                }
+
+                d.section = section
+
+                switch (section) {
+
+                    case 2:
+                        // change the bearing based on the change size
+                        d.dy = function (y) {
+                            dy = d.data.change_size / 5000
+                            //console.log(dy)
+                            if (dy < 0) {
+                                return Math.max(dy, -0.02)
+                            }
+                            return Math.min(dy, 0.02)
+                        };
+                        break;
+                    case 3:
+                        // change the colour based on the action type
+                        d.geometry.material = new THREE.PointsMaterial(
+                            { size: 10, color: stringToColour(d.data.action) }
+                        );
+                        break;
+
                 }
 
             })
@@ -133,7 +179,10 @@
 
             newDot = {
                 data: data,
-                geometry: new THREE.Points(dotGeometry, dotsMaterial)
+                section: 0,
+                geometry: new THREE.Points(dotsGeometry, dotsMaterial),
+                dy: y => 0,
+                dx: x => 0.03 // 1 / (x + 6)
             }
 
             dots.push(newDot)
