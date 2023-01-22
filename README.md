@@ -1,6 +1,28 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 22nd Jan 2023
+
+Today I'm trying to figure out how to apply a transform to each particle in a specific section of the screen. The transform is that I'd like to change its colour. 
+
+Even this simple transform highlights the need that I should attach the data to the particle in the `dots` array, so that it's available to the sections as the dot traverses the screen. 
+
+I woke up late, and my family sounds like it might be waking up early, so this could be a pretty short session...
+
+... OK so I got a bit further than I had thought. I've made two "sections" - thoroughly hard coded mind you - one changes the bearing of the particle and one changes the colour. Quick thoughts on the transformation:
+* the colour change is fine, and occurs immediately as you cross into the section. Keep feeling like something more should happen at the border crossing, like a little ding! glow or something. The borders don't feel very physical. 
+* the bearing change I achieve by simply changing the amount that's added to `position.y` at every step. Following the physical analogy feels like it might be nicer to apply a force to the particle during its stay in the section, such that its bearing is changed a bit during the rest of its time on the screen. 
+
+New thoughts:
+* even with just these two little hard coded transformations the tool is starting to do part of its job in the sense that I want to know more about the data as it flows across the screen. The tool right now does a terrible job at letting you find stuff out. Going to need to think about some section options that help you look into the data a bit more, like a "label" section or something. 
+* could be fun to have an offset section, which is essentially the bearing section where the `dy` is set back to 0 as you cross out of the section. I quite want to map longitude of the wiki edits to a vertical access of streamscope. Does beg the question about how to represent the sections not just as fields but as border crossings. Or should we have a section that is a sort of "stabilise" field, that takes the bearing and sets it back to zero again? Actually I might do that now....
+
+Outstanding tasks carried over from yesterday:
+* make a menu; let the user choose the nature of each field
+* figure out how to free up memory
+
+![streamscope screenshot](screenshots/streamscope_screenshot_220123.png?raw=true)
+
 ## 21st Jan 2023
 
 So I'd like to make a tool that runs in the browser. As a user, you give it a websocket URL, and get a little particle stream of points, where each particle represents an event in the websoccket. 
