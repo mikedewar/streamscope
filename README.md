@@ -17,6 +17,10 @@ New thoughts:
 * even with just these two little hard coded transformations the tool is starting to do part of its job in the sense that I want to know more about the data as it flows across the screen. The tool right now does a terrible job at letting you find stuff out. Going to need to think about some section options that help you look into the data a bit more, like a "label" section or something. 
 * could be fun to have an offset section, which is essentially the bearing section where the `dy` is set back to 0 as you cross out of the section. I quite want to map longitude of the wiki edits to a vertical access of streamscope. Does beg the question about how to represent the sections not just as fields but as border crossings. Or should we have a section that is a sort of "stabilise" field, that takes the bearing and sets it back to zero again? Actually I might do that now....
 
+Turns out the stabilise idea is qutie nice; again could make it a field that applies a force such that by the end of the field the `dy = 0` and that would loook a lot better. To implement the longitude idea now I'd create a bearing field that spreads the particles apart by longitude and then a stabilise field that sets the bearing back to 0.
+
+On implementing this new field (actually the CSS for positioning its label) it strikes me that I don't understand the coordinate system of any of the stuff on the screen. We've got a sort of absolute coordinate sytem which the vertical lines follow (I think (0,0) is maybe in the middle of the screen? I forget), the coordinates the particles follow which seem to be relative to their starting position, and then pixel coordinates I'm using in the CSS to position the section labels. #TODO. 
+
 Outstanding tasks carried over from yesterday:
 * make a menu; let the user choose the nature of each field
 * figure out how to free up memory
