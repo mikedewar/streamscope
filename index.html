@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>My first three.js app</title>
+    <title>S T R E A M S C O P E</title>
     <style>
         body {
             margin: 0;
@@ -85,13 +85,24 @@
                 dot.position.x = 0
             }
 
+            // update position
             dots.forEach(function (d) {
-                d.position.x += 1 / (d.position.x + 6)
+                d.geometry.position.x += 1 / (d.geometry.position.x + 6)
             })
 
-            dots = dots.filter(d => d.position.x < 21)
+            // remove dot from array if it's past the right edge of the screen
+            dots = dots.filter(d => d.geometry.position.x < 21)
 
-            THREE.dis
+            // apply transforms 
+            dots.forEach(function (d) {
+
+                if (d.geometry.position.x > 4 & d.geometry.position.x < 6) {
+                    d.geometry.material = new THREE.PointsMaterial(
+                        { size: 10, color: stringToColour(d.data.action) }
+                    );
+                }
+
+            })
 
             renderer.render(scene, camera);
         }
@@ -119,10 +130,14 @@
         webSocket.onmessage = (event) => {
             data = JSON.parse(event.data);
             console.log(data)
-            dots.push(new THREE.Points(dotGeometry, new THREE.PointsMaterial(
-                { size: 10, color: stringToColour(data.action) }
-            )));
-            scene.add(dots.at(-1));
+
+            newDot = {
+                data: data,
+                geometry: new THREE.Points(dotGeometry, dotsMaterial)
+            }
+
+            dots.push(newDot)
+            scene.add(dots.at(-1).geometry);
         }
 
 
