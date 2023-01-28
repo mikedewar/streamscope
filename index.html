@@ -50,6 +50,7 @@
 
 
     <script src="js/three.js"></script>
+    <script src="js/dat.gui.min.js"></script>
     <script>
 
 
@@ -72,7 +73,6 @@
 
         // add the <canvas> element to the dom
         document.body.appendChild(renderer.domElement);
-
 
         const dotsGeometry = new THREE.BufferGeometry();
         dotsGeometry.setAttribute(
@@ -107,6 +107,30 @@
 
         scene.add(line);
 
+        // default section params
+        var sectionParams = borders.slice(0, -1).map((e, i) => ({
+            section: i,
+            type: "none",
+            field: "none",
+            value: 0
+        }))
+
+        // make the GUI
+        const gui = new dat.GUI()
+        const sectionFolder = gui.addFolder('Sections')
+        sectionParams.forEach(function (x) {
+            folder = sectionFolder.addFolder(x.section)
+            folder.add(x, "type")
+            folder.add(x, "field")
+            folder.add(x, "value", -0.1, 0.1)
+        })
+
+        sectionFolder.open()
+
+        function getSection(x) {
+            return Math.ceil((x / 20) * 10)
+        }
+
         function animate() {
             requestAnimationFrame(animate);
 
@@ -120,9 +144,6 @@
             dots = dots.filter(d => d.geometry.position.x < 21)
 
 
-            function getSection(x) {
-                return Math.ceil((x / 20) * 10)
-            }
 
             // apply transforms 
             dots.forEach(function (d) {
@@ -164,6 +185,35 @@
                         d.dy = y => 0;
                         break
 
+                    case 5:
+                        // use menu
+                        console.log(sectionParams[5])
+                        switch (sectionParams[5].type) {
+                            case "force":
+                                d.dy = y => d.data[sectionParams[5].field] * sectionParams[5].value
+                                break;
+                            case "stabilise":
+                                d.dy = 0
+                                break
+                            default:
+                                break
+                        }
+                        console.log("5", d.dy(d.geometry.position.y))
+                        break
+                    case 6:
+                        // use menu
+                        console.log(sectionParams[6])
+                        switch (sectionParams[6].type) {
+                            case "force":
+                                d.dy = y => d.data[sectionParams[6].field] * sectionParams[6].value
+                                break;
+                            case "stabilise":
+                                d.dy = y => 0
+                                break
+                            default:
+                                break
+                        }
+
                 }
 
             })
@@ -193,7 +243,7 @@
         webSocket = new WebSocket(url)
         webSocket.onmessage = (event) => {
             data = JSON.parse(event.data);
-            console.log(data)
+            //console.log(data)
 
             newDot = {
                 data: data,

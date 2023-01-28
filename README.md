@@ -1,6 +1,25 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 28th Jan 2023
+
+Woke up early. Gonna do menus. No clue how.
+
+So it turns out there's a library called `dat.gui` which I've used to explore how we might control what each section does. The code I've written is honestly terrible, I'm just copying and pasting into switch cases at this point to see what can be done - pretty quickly approaching the point where the code's going to need to be refactored! Anyway, playing with menus and a bit of interaction has made a couple of other things clear:
+
+* I think maybe the "stabilise" idea from the last session should be applied when the particles exit each section. The idea being that a particle moves to the right horizontally unless it's being modified explicitly. That way we won't need to spend space on levelling out the particles. I think this might limit opportunities for combining things, so could possibly be revisitng. 
+* I made a new modifer called "force". I didn't implement it properly (e.g. there's no acceleration or anything) but I'm going to use it to replace "bearing" which really didn't fit the metaphor at all. I'll do this as a refactor, i think.
+* `dat.gui` is VERY quick to use and very handy for mucking about. It also rapidly becomes obvious that we'll need to a) autosuggest fields in the data, have dropdowns for different kinds of modifiers, and be able to normalise values somehow so i don't have to fiddle around with tiny values. So still a long way to go on the menu.
+
+Ideas remainging from the last session, and chats over the week on Mastodon:
+
+* figure out how to free up memory
+* think about how to interrogate the particles
+* figure out coordinate frames so I can do better labelling
+
+![streamscope screenshot](screenshots/streamscope_screenshot_280123.png?raw=true)
+
+
 ## 22nd Jan 2023
 
 Today I'm trying to figure out how to apply a transform to each particle in a specific section of the screen. The transform is that I'd like to change its colour. 
@@ -15,7 +34,7 @@ I woke up late, and my family sounds like it might be waking up early, so this c
 
 New thoughts:
 * even with just these two little hard coded transformations the tool is starting to do part of its job in the sense that I want to know more about the data as it flows across the screen. The tool right now does a terrible job at letting you find stuff out. Going to need to think about some section options that help you look into the data a bit more, like a "label" section or something. 
-* could be fun to have an offset section, which is essentially the bearing section where the `dy` is set back to 0 as you cross out of the section. I quite want to map longitude of the wiki edits to a vertical access of streamscope. Does beg the question about how to represent the sections not just as fields but as border crossings. Or should we have a section that is a sort of "stabilise" field, that takes the bearing and sets it back to zero again? Actually I might do that now....
+* could be fun to have an offset section, which is essentially the bearing section where the `dy` is set back to 0 as you cross out of the section. I quite want to map longitude of the wiki edits to a vertical axis of streamscope. Does beg the question about how to represent the sections not just as fields but as border crossings. Or should we have a section that is a sort of "stabilise" field, that takes the bearing and sets it back to zero again? Actually I might do that now....
 
 Turns out the stabilise idea is qutie nice; again could make it a field that applies a force such that by the end of the field the `dy = 0` and that would loook a lot better. To implement the longitude idea now I'd create a bearing field that spreads the particles apart by longitude and then a stabilise field that sets the bearing back to 0.
 
