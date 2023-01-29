@@ -1,6 +1,22 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 29th Jan 2023
+
+So I've spent most of the morning trying to make three-mesh-ui work, in the hope I could use it to tag each particle with a data driven label. The library itself seems great, totally got it to work, but not with an Orthographic camera! Pretty sure it's supposed to be for VR UIs where I imagine an orthographic camera would make you fall over and puke etc. So the plane I'm trying to render just sorta disappears.
+
+So now I'm having a go with Three.js' TextGeometry. Main concern is that the examples use it for fun spinny 3d text objects, which isn't really what I want. Let's see, though. The other big problem with this bit of Three.js is that it means I can no longer import the js as a static file like it was 2003, i gotta use `npm` and start mucking about with webpack etc which normally spells the death of my projects (though I refuse to let this one perish!) or at the very least cracking on with a basic refactor. Can hear movement upstairs so my remaining time might almost be up, hence the log with no other commit today.
+
+Remaining:
+
+* figure out how to free up memory
+* think about how to interrogate particles
+* figure out coordinate frames (though mucking about with the camera today has helped)
+* better menus
+* refactor and move to npm + webpack. 
+* Ditch "bearing" for "force" and model a teensy bit of mass of the particles just for nice curves..
+* stabilise particles after each section crossing
+
 ## 28th Jan 2023
 
 Woke up early. Gonna do menus. No clue how.
