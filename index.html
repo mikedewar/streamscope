@@ -51,10 +51,14 @@
 
     <script src="js/three.js"></script>
     <script src="js/dat.gui.min.js"></script>
+
     <script>
 
 
         const scene = new THREE.Scene();
+
+        const WIDTH = window.innerWidth;
+        const HEIGHT = window.innerHeight;
 
         scene.background = new THREE.Color('#2e2629')
 
@@ -63,6 +67,9 @@
         );
 
         camera.position.set(0, 0, 1);
+
+
+
 
         const renderer = new THREE.WebGLRenderer();
 
@@ -125,8 +132,6 @@
             folder.add(x, "value", -0.1, 0.1)
         })
 
-        sectionFolder.open()
-
         function getSection(x) {
             return Math.ceil((x / 20) * 10)
         }
@@ -187,7 +192,6 @@
 
                     case 5:
                         // use menu
-                        console.log(sectionParams[5])
                         switch (sectionParams[5].type) {
                             case "force":
                                 d.dy = y => d.data[sectionParams[5].field] * sectionParams[5].value
@@ -198,11 +202,9 @@
                             default:
                                 break
                         }
-                        console.log("5", d.dy(d.geometry.position.y))
                         break
                     case 6:
                         // use menu
-                        console.log(sectionParams[6])
                         switch (sectionParams[6].type) {
                             case "force":
                                 d.dy = y => d.data[sectionParams[6].field] * sectionParams[6].value
@@ -217,6 +219,7 @@
                 }
 
             })
+
 
             renderer.render(scene, camera);
         }
@@ -255,6 +258,7 @@
 
             dots.push(newDot)
             scene.add(dots.at(-1).geometry);
+
         }
 
 
