@@ -1,6 +1,18 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 12th Feb 2023
+
+As predicted, progress has slowed down now it's time to get serious with npm and webpack etc. Managed to update the project so I can `import { stuff } from /some/magical/place.js` except now I gotta build it every time i make a change. Just so I can save myself five minutes next time, I'm using:
+
+```
+npm run watch
+```
+
+so that every time I hit save, `npm` looks in its `watch` script in `package.json` which in turn calls `npm run build` which just looks in the `build` script in `package.json` which just calls `webpack`. So: straightforward. I don't know if `watch` is calling the underlying function in bash `watch` or some node magic or what but I find it's good to not ask questions an focus on what you're trying (and very failing) to do, which is to render some text.
+
+
+
 ## 29th Jan 2023
 
 So I've spent most of the morning trying to make three-mesh-ui work, in the hope I could use it to tag each particle with a data driven label. The library itself seems great, totally got it to work, but not with an Orthographic camera! Pretty sure it's supposed to be for VR UIs where I imagine an orthographic camera would make you fall over and puke etc. So the plane I'm trying to render just sorta disappears.
