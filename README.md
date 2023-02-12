@@ -11,6 +11,25 @@ npm run watch
 
 so that every time I hit save, `npm` looks in its `watch` script in `package.json` which in turn calls `npm run build` which just looks in the `build` script in `package.json` which just calls `webpack`. So: straightforward. I don't know if `watch` is calling the underlying function in bash `watch` or some node magic or what but I find it's good to not ask questions an focus on what you're trying (and very failing) to do, which is to render some text.
 
+---
+
+OK after an hour or so (which included installing Cities Skylines on Ali's mum's laptop so he wouldn't distract me) I managed to get the text working. For some reason, the text comes upside down and back to front out of the box, and the pair of rotations needed to get it the right way up eluded me for reasons I do not understand. Concievably I was making the materials wrong, who knows. It's working now though!
+
+![streamscope screenshot](screenshots/streamscope_screenshot_120223.png?raw=true)
+
+Working in the sense that I can write text to the screen using THREE.js. It's not working in any let's make a beautiful stream visualisation tool kinda way but that can come next. 
+
+It's also become painfully clear that I don't understand the difference between `let`, `const`, and `var`, and that my code now REALLY needs refactoring, largely because fonts are loaded asynchronously so you have to sort of wait for that to happen before you start mucking about with them. Which means functions and not being a lazy copy-and-paster. 
+
+Remaining:
+
+* refactor code into functions
+* figure out how to free up memory
+* think about how to interrogate particles
+* figure out coordinate frames (though mucking about with the camera today has helped)
+* better menus
+* Ditch "bearing" for "force" and model a teensy bit of mass of the particles just for nice curves..
+* stabilise particles after each section crossing
 
 
 ## 29th Jan 2023
