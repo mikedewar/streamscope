@@ -1,6 +1,28 @@
 # streamscope
 visualise streams of data through a websocket
 
+
+## 13th Feb 2023
+
+Working in the evening! Evening is a good time for refactoring. Here's what I've done:
+
+* I've moved all my old code into `\old`.
+* I've split my code up into 6 files, one main, and then one each for camera, scene, websocket, fields and dots.
+* I've made a bunch of classes, and started (but not finished) moving all my old crap code into my new shiny marginally possibly not crap refactored coded.
+
+It's taking freaking AGES. I'm bad at javascript it turns out. Super tempted to try co-pilot but it feels like a rabbit hole despite watching Dan Catt look badass and efficient using it.
+
+Remaining
+
+* Rename `Fields`, `Field` to something less bloomin' stupid
+* Complete refactor (text, section lines, colours etc...)
+* figure out how to free up memory
+* think about how to interrogate particles
+* figure out coordinate frames (though mucking about with the camera today has helped)
+* better menus
+* Ditch "bearing" for "force" and model a teensy bit of mass of the particles just for nice curves..
+* stabilise particles after each section crossing
+
 ## 12th Feb 2023
 
 As predicted, progress has slowed down now it's time to get serious with npm and webpack etc. Managed to update the project so I can `import { stuff } from /some/magical/place.js` except now I gotta build it every time i make a change. Just so I can save myself five minutes next time, I'm using:
