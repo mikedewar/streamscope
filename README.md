@@ -15,6 +15,8 @@ So super successful session today; got two things nailed:
 
 Crossed off a bunch of TODOs along the way: feeling positive!
 
+![streamscope screenshot](screenshots/streamscope_screenshot_180223.png?raw=true)
+
 Remaining:
 * think about how to interrogate particles
 * menus
