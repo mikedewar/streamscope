@@ -1,6 +1,32 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 18th Feb 2023
+
+Been tinkering all week whilst on holiday (not as efficient as I'd hoped as other members of my family wake up much earlier than my little gang). I found on one of the three js demos (the moon demo) that you can render HTML text in the 3d space using the `CSS2DRenderer.js` plugin. It looks much more efficient, and much crisper than mucking about with 3d meshes. So I'm trying to get that working but no luck so far!
+
+Reason I'm taking a note is that I googled "three js orthographic camera upside down" to find out why everything's going on. The first SO response was 'you've got your arguments in the wrong order' to which the questioner was very pleased (if a little embarassed maybe) to discover that fixed their issue. I thought "that can't be my problem" but low and behold it definitely was; my camera was upside down! So all that rotational nonsense I had to do on the 12th was simply because I was looking at everything upside down. Put the camera back on its base and hey presto, my text needs no rotation. Anyway, this is more a parable of simple-things-will-kill-you and stack-overflow-is-a-wonderful-part-of-the-internet. I hope it remains that way.
+
+...
+
+So super successful session today; got two things nailed:
+1. I can remove objects (and their children!) from the scene now. You have to get the object by it's ID (for me: the dot), then `.clear()` it to delete the children if they exist (which for me is the label), then call the scene's `.remove(object)` method to delete the object from the scene. Pretty straightforward in the end.
+2. I can have a section that assigns a label to the dot, using HTML rendered text rather than creating a mesh. Much easier; style controlled by CSS; looks much nicer.
+
+Crossed off a bunch of TODOs along the way: feeling positive!
+
+Remaining:
+* think about how to interrogate particles
+* menus
+* add a teensy bit of mass to the particles just for nice curves..
+
+New thoughts:
+* consider using javascript's event model to capture border crossings rather than testing on every animation frame. This way I could associate events on entering and leaving a section, and then write functions to change the dot's properties along the way only when those events are fired. Then the `exert` method would be more or less generic most of the time. 
+* auto scale the force by adjusting the max and min depending on what shows up in the field rather than setting it automatically. 
+* allow for a logarithmic scale for force axes
+* draw ticks on the section borders
+* draw tick labels on the section borders
+* ticks and tick labels change smoothly as the force is changed (or adapted to)
 
 ## 13th Feb 2023
 

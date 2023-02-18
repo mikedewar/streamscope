@@ -1,12 +1,12 @@
 // in here we're going to have everything to do with the renderer and holds the top level animation
 // loop. 
 import * as THREE from 'three';
+import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
 
 import * as scene from './scene.js'
 import * as camera from './camera.js'
 import * as dots from './dots.js'
-import * as fields from './fields.js'
-
+import * as sections from './sections.js'
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -15,21 +15,30 @@ renderer.setSize(
     window.innerHeight
 );
 
+// a special renderer for text
+var labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
+document.body.appendChild(labelRenderer.domElement);
+
 // add the <canvas> element to the dom
 document.body.appendChild(renderer.domElement);
 
 // let's do three fields right now
-fields = new fields.Fields(3, window.innerWidth);
+var mySections = new sections.Sections(4, 10);
+
+mySections.sections.forEach(s => scene.scene.add(s.line))
 
 // get some dots
-var myDots = new dots.Dots(fields.fields);
+var myDots = new dots.Dots(mySections.sections);
 
 // instantiate websocket (move this out eventually)
 export const webSocket = new WebSocket("ws://wikimon.hatnote.com:9000");
 
 webSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log(data)
+    //console.log(data)
     var newDot = myDots.addDot(data);
     scene.scene.add(newDot.points);
 }
@@ -40,6 +49,7 @@ function animate() {
     myDots.update_position()
 
     renderer.render(scene.scene, camera.camera);
+    labelRenderer.render(scene.scene, camera.camera);
 
 }
 

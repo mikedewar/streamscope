@@ -1,23 +1,24 @@
 import * as THREE from 'three';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Dots {
 
-    constructor(fields) {
+    constructor(sections) {
 
         this.geometry = new THREE.BufferGeometry();
         this.material = new THREE.PointsMaterial(
             { size: 10, color: "#8CBEB2" }
         );
-        this.fields = fields;
+        this.sections = sections;
         this.dots = [];
 
     }
 
     update_position() {
         // chuck out any dots that have drifted off the page
-        this.dots = this.dots.filter(d => d.points.position.x < 21)
+        this.dots = this.dots.filter(d => d.points.position.x < 20)
         // update those that remain
-        this.dots.forEach(d => d.update_position(this.getField(d)))
+        this.dots.forEach(d => d.update_position(this.getSection(d)))
     }
 
     addDot(data) {
@@ -26,13 +27,12 @@ export class Dots {
         return newDot;
     }
 
-    getField(dot) {
-
-        var currentField = this.fields.find(function (field) {
-            return field.left <= dot.points.position.x && field.right > dot.points.position.x
+    getSection(dot) {
+        var currentSection = this.sections.find(function (section) {
+            return section.left <= dot.points.position.x && section.right > dot.points.position.x
         })
 
-        return currentField
+        return currentSection
     }
 }
 
@@ -41,21 +41,33 @@ export class Dot {
 
         this.data = eventData;
         this.points = new THREE.Points(geometry, material);
-        this.section = 0;
+        this.sectionIdx = 0;
+        this.lastSectionIdx = -1;
+        this.id = uuidv4();
+        this.isLabelled = false;
 
         this.points.geometry.setAttribute(
             'position',
             new THREE.BufferAttribute(
-                new Float32Array([-10, 0, 0]),
+                new Float32Array([0, 0, 0]),
                 3
             )
         )
     }
 
 
-    update_position(field) {
-        field.exert(this)
+    update_position(section) {
+        if (section === undefined) {
+            console.log("unfiltered dot", this)
+            return
+        }
+        this.sectionIdx = section.idx
+        section.exert(this)
+        this.lastSectionIdx = section.idx
+    }
 
+    add(entity) {
+        this.points.add(entity)
     }
 }
 
