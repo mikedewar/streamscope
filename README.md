@@ -7,7 +7,7 @@ Don't normally touch this during the working week but my work phone decided to d
 
 So instead I've started transcribing my #TODO list over to Github issues here:
 
-    [https://github.com/mikedewar/streamscope/issues](https://github.com/mikedewar/streamscope/issues)
+    [https://github.com/mikedewar/streamscope/issues]
 
 so I can keep track of them a bit more directly and give potential future readers a quicker route into what I'm up to rather than trawling through this little diary.
 
