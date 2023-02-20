@@ -38,7 +38,7 @@ export const webSocket = new WebSocket("ws://wikimon.hatnote.com:9000");
 
 webSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    //console.log(data)
+    console.log(data)
     var newDot = myDots.addDot(data);
     scene.scene.add(newDot.points);
 }

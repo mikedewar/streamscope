@@ -1,6 +1,16 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 20th Feb 2023
+
+Don't normally touch this during the working week but my work phone decided to do an update leaving me with no 2FA and therefore no real urge to log in and find out what's been going on while I've been on holiday.
+
+So instead I've started transcribing my #TODO list over to Github issues here:
+
+    [https://github.com/mikedewar/streamscope/issues](https://github.com/mikedewar/streamscope/issues)
+
+so I can keep track of them a bit more directly and give potential future readers a quicker route into what I'm up to rather than trawling through this little diary.
+
 ## 18th Feb 2023
 
 Been tinkering all week whilst on holiday (not as efficient as I'd hoped as other members of my family wake up much earlier than my little gang). I found on one of the three js demos (the moon demo) that you can render HTML text in the 3d space using the `CSS2DRenderer.js` plugin. It looks much more efficient, and much crisper than mucking about with 3d meshes. So I'm trying to get that working but no luck so far!

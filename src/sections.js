@@ -5,23 +5,20 @@ import * as scene from './scene.js';
 export class Sections {
     constructor(numSections, totalWidth) {
 
-        // # TODO move this into the UI
-        const fields = ["a", "change_size", "action", "page_title"];
-
         const width = totalWidth / numSections
 
         this.sections = Array.from(
             { length: numSections },
-            (_, i) => new Force(i, width, fields[i])
+            (_, i) => new Force(i, width, '')
         )
 
         this.sections.push(new Null(numSections, width, ""))
 
-        this.sections[1].dy = dot => dot.points.position.y + -0.0005 * dot.data[this.sections[1].field];
+        this.sections[1].dy = dot => dot.points.position.y + -0.0005 * dot.data["change_size"];
 
-        this.sections[0] = new Colour(0, width, this.sections[2].field)
+        this.sections[0] = new Colour(0, width, "ns")
 
-        this.sections[2] = new Label(2, width, this.sections[3].field)
+        this.sections[2] = new Label(2, width, "user")
 
     }
 }
