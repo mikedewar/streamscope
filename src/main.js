@@ -7,6 +7,7 @@ import * as scene from './scene.js'
 import * as camera from './camera.js'
 import * as dots from './dots.js'
 import * as sections from './sections.js'
+import * as observer from './observer.js'
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -36,12 +37,24 @@ var myDots = new dots.Dots(mySections.sections);
 // instantiate websocket (move this out eventually)
 export const webSocket = new WebSocket("ws://wikimon.hatnote.com:9000");
 
+// make an observer that learns about the event object
+window.allSeeingEye = new observer.Observer();
+
 webSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log(data)
+    //console.log(data)
     var newDot = myDots.addDot(data);
     scene.scene.add(newDot.points);
+
+    // update the observer (consider sampling maybe?)
+    window.allSeeingEye.update(data)
+    //console.log(allSeeingEye.getFields(["string", "boolean"]))
 }
+
+document.addEventListener(
+    "newField",
+    x => mySections.sections.forEach(s => s.updateMenu())
+)
 
 function animate() {
     requestAnimationFrame(animate);
