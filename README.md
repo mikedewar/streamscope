@@ -1,6 +1,15 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 25th Feb 2023
+
+Big update today! So big in fact I don't have time to write much about what's going on in my brain as I've done it. Here are the quick notes:
+
+* added an observer! This learns about the type of the inbound fields so that you can make...
+* section type specific menus! It uses the osberver to understand the fields and their types in the data dynamically
+
+Still got a long way to go but definitely a major step forward today.
+
 ## 20th Feb 2023
 
 Don't normally touch this during the working week but my work phone decided to do an update leaving me with no 2FA and therefore no real urge to log in and find out what's been going on while I've been on holiday.
