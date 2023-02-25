@@ -8,6 +8,9 @@ Big update today! So big in fact I don't have time to write much about what's go
 * added an observer! This learns about the type of the inbound fields so that you can make...
 * section type specific menus! It uses the osberver to understand the fields and their types in the data dynamically
 
+![streamscope screenshot](screenshots/streamscope_screenshot_250223.png?raw=true)
+
+
 Still got a long way to go but definitely a major step forward today.
 
 ## 20th Feb 2023
