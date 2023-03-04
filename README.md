@@ -1,6 +1,12 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 4th March
+
+Trying to implement the section-type menu today. Turns out it's non-trivial, and is starting to make me wonder if I need to go back to the drawing board around how I control the divs on screen. Not going to commit the code coz it's quite busted at the moment, but just for the record my problem is that when I change the section type, I can't update the field menu for some reason. I'm creating the correct div, but am not able to remove the old one and replace it with the new correct one I've created. 
+
+Pretty confused. Might pause here as I'm getting a little frustrated.
+
 ## 25th Feb 2023
 
 Big update today! So big in fact I don't have time to write much about what's going on in my brain as I've done it. Here are the quick notes:
