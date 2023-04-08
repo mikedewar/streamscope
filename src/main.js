@@ -16,7 +16,7 @@ renderer.setSize(
     window.innerHeight
 );
 
-// a special renderer for text
+// a special renderer for HTML
 var labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(window.innerWidth, window.innerHeight);
 labelRenderer.domElement.style.position = 'absolute';
@@ -53,7 +53,10 @@ webSocket.onmessage = (event) => {
 
 document.addEventListener(
     "newField",
-    x => mySections.sections.forEach(s => s.updateMenu())
+    x => {
+        console.log("recieved newField event")
+        mySections.sections.forEach(s => s.updateMenu())
+    }
 )
 
 function animate() {

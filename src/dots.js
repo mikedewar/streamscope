@@ -55,7 +55,6 @@ export class Dot {
         )
     }
 
-
     update_position(section) {
         if (section === undefined) {
             console.log("unfiltered dot", this)

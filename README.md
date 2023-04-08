@@ -1,6 +1,18 @@
 # streamscope
 visualise streams of data through a websocket
 
+## 7th April
+
+So it's been a month since I've updated much of anything. Currently on holiday in the Pyrenees wondering where to go from here. Since this project sputtered to a halt with me failing to get the controls hooked up, Github CoPilot and ChatGPT have exploded onto the scene in a big way, and it's made me stumble a bit! 
+
+I can't use these tools at work; they're fundamentally incompatible with how my employer thinks about IP. But for personal projects like streamscope they suggest a fundamentally different approach to development. Just at the moment I've been (sort-of) dusting off my javascript skills and thinking about how to build a nice little product using 'em, all of a sudden, and for the first time in my life, these skills don't really feel all that important. 
+
+I think maybe what's important is that streamscope is a useful, well designed tool for visualisaing streams of data and that me learning how to control divs responding to changes in drop downs in other divs (though it's still bugging me I can't figure it out) is suddenly less important. 
+
+There's a very real possibility that if I don't need to code the bulk of this thing, then a) I can start to use "professional" frameworks like React (which I have avoided because life's too short) and b) I can focus on the bit I (should) really care about which is the design of the tool itself rather then the many small joys of making my computer do a thing that's always (but only) one step away from something I know how to do.
+
+So I'm facing the temptation to start again - which let's be honest is a thing I do a lot in my life so I'm concious that I might be using this LLM explosiion as a way of avoiding ever getting close to a v1 of this project - this time exploring how to engage with CoPilot and ChatGPT from the get go to build out a new practice of prototype building. While I think a lot of the hype around these tools is unhelpful and distracting, I do believe they are also game changing in a fantastic and fundamental way. 
+
 ## 4th March
 
 Trying to implement the section-type menu today. Turns out it's non-trivial, and is starting to make me wonder if I need to go back to the drawing board around how I control the divs on screen. Not going to commit the code coz it's quite busted at the moment, but just for the record my problem is that when I change the section type, I can't update the field menu for some reason. I'm creating the correct div, but am not able to remove the old one and replace it with the new correct one I've created. 

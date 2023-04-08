@@ -15,6 +15,19 @@ export class Sections {
 
         this.sections.push(new Null(numSections, width, ""))
 
+        document.addEventListener(
+            "SectionChange",
+            x => {
+                console.log("recieved SectionChange event with detail", x.detail)
+                const idx = x.detail.idx
+                this.sections[idx] = new Colour(idx, width, "")
+                //this.sections[idx].updateMenu()
+                // delete old menu
+                this.sections[idx].clearMenu()
+            }
+        )
+
+        /*
         this.sections[0] = new Colour(0, width, "user")
 
         //this.sections[1] = new Filter(1, width, "is_bot")
@@ -23,8 +36,7 @@ export class Sections {
         this.sections[2].dy = dot => dot.points.position.y + -0.0005 * dot.data[this.sections[2].field];
 
         this.sections[3] = new Label(3, width, "page_title")
-
-
+        */
 
     }
 }
@@ -53,24 +65,37 @@ class Section {
 
     setField(field) {
         this.field = field
-        console.log(field)
-        //this.clearMenu()
-        //this.menu = new menu.Menu(this)
     }
 
     clearMenu() {
-        const object = this.line.getObjectById(this.menu.id)
-        if (object === undefined) {
+        console.log("clearing menu", this.menu.id, "from section", this.idx)
+        const menu = this.line.getObjectById(this.menu.id)
+        console.log("menu to remove", menu.id)
+        if (menu === undefined) {
             console.log("menu object not found")
             return
         }
-        object.clear()
-        this.line.remove(object);
+        menu.clear() // removes all child objects from the menu object
+        console.log("menu.children after clear", menu.children)
+        this.line.remove(menu); // removes the menu from the section (aka "line")
+        menu.remove()
+        /*
+        const domID = "menu" + this.idx
+        try {
+            const e = document.getElementById(domID)
+            e.remove() // remove it from the DOM
+            console.log("removed", domID, "from the DOM")
+        } catch {
+            console.log("asked to remove", domID, "but it's not there; skipping")
+        }
+        */
         this.menu = null
     }
 
     updateMenu() {
+        console.log("clearing menu for section", this.idx)
         this.clearMenu()
+        console.log("creating new menu for section", this.idx, "of type", this.type)
         this.menu = new menu.Menu(this)
     }
 }
@@ -80,8 +105,8 @@ class Force extends Section {
     constructor(idx, width, field) {
         super(idx, width, field);
         this.type = "Force"
-        this.menu = new menu.Menu(this)
         this.allowableTypes = ["number"]
+        this.menu = new menu.Menu(this)
     }
 
     exert(dot) {
@@ -95,13 +120,11 @@ class Colour extends Section {
     constructor(idx, width, field) {
         super(idx, width, field);
         this.type = "Colour"
-        this.menu = new menu.Menu(this)
         this.allowableTypes = ["string"]
+        this.menu = new menu.Menu(this)
     }
 
     exert(dot) {
-
-
         if (dot.sectionIdx != dot.lastSectionIdx) {
             dot.points.material = new THREE.PointsMaterial(
                 { size: 10, color: stringToColour(dot.data[this.field]) }
@@ -114,6 +137,9 @@ class Colour extends Section {
 }
 
 function stringToColour(str) {
+    if (str === undefined) {
+        return "black"
+    }
     // https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
@@ -152,8 +178,8 @@ class Filter extends Section {
     constructor(idx, width, field) {
         super(idx, width, field);
         this.type = "Filter"
-        this.menu = new menu.Menu(this)
         this.allowableTypes = ["string"] // #TODO
+        this.menu = new menu.Menu(this)
     }
 
     exert(dot) {
@@ -182,8 +208,8 @@ class Null extends Section {
     constructor(idx, width, field) {
         super(idx, width, field);
         this.type = "Null"
-        this.menu = new menu.Menu(this)
         this.allowableTypes = ["string"] // #TODO 
+        this.menu = new menu.Menu(this)
     }
 
     exert(dot) {
